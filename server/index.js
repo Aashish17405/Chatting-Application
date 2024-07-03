@@ -27,10 +27,10 @@ app.get('/', (req, res) => {
     res.send("Hello world");
 });
 
-app.post('/a', async (req, res) => {
+app.post('/send', async (req, res) => {
     await message.create({
-        username:"aashish",
-        mess: "hello bro whatsapp"
+        username:req.body.username,
+        mess: req.body.message
     });
     res.json({ msg: "Successfully created todo" });
 });

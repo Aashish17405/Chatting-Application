@@ -1,14 +1,14 @@
 import './App.css'
 import { BrowserRouter as Router,Routes,Route } from 'react-router-dom';
 import SendMessage from './components/Send';
-import Home from './components/Home';
+import Login from './components/Login';
 function App() {
 
   return (
     <div>
       <Router>
         <Routes>
-          <Route path='/' element={<Home/>}/>
+          <Route path='/' element={<Login/>}/>
           <Route path="/send" element={<SendMessage />} />
         </Routes>
       </Router>

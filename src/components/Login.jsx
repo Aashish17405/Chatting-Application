@@ -4,14 +4,16 @@ function Login(){
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
 
-    async function handleSubmit(){
+    async function handleSubmit(event){
+        event.preventDefault();
         try{
-            const response = await fetch("http://localhost:3000/",{
+            const response = await fetch("http://localhost:5000/", {
                 method:"POST",
                 headers:{
                     'Content-Type': 'application/json',
                 },
                 body:JSON.stringify({
+                    userId:123456,
                     username:username,
                     password:password
                 })
@@ -19,13 +21,12 @@ function Login(){
             if (!response.ok) {
                 throw new Error('Network response was not ok');
             }
-            const json = await response.json();
+            const data = await response.json();
+            localStorage.setItem('token', data.token);
         }catch(e){
             console.error('Error:', e);
             setUsername('');
             setPassword('');
-        }finally{
-            console.log('Request finished');
         }
     }
     return <div>
@@ -38,7 +39,6 @@ function Login(){
             setPassword(event.target.value);
         }}></input><br/><br/>
         <button onClick={handleSubmit}>Login</button>
-        {username && <h3>{username}</h3>}
     </div>
 }
 export default Login;

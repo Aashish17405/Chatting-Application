@@ -6,7 +6,7 @@ function SendMessage(){
 
     async function forwardMessage(message){
         try{
-        const res  = await fetch('http://localhost:3000/send',{
+        const res  = await fetch('http://localhost:5000/send',{
                 method: 'POST',
                 headers:{
                     'Content-Type': 'application/json',

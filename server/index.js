@@ -15,6 +15,7 @@ app.use(express.json());
 const port = process.env.PORT || 3000;
 const mongoURI = process.env.MONGODB_URI;
 const jwtPassword=process.env.JWT_SECRET;
+const expiryTime = 6;
 
 if (!mongoURI) {
     console.error("MongoDB URI is not defined");
@@ -39,7 +40,7 @@ function jwtSign(req, res, next) {
         return res.status(400).json({ message: 'Invalid input' });
     }
 
-    const token = jwt.sign({ id: userIdResponse.data }, jwtPassword);
+    const token = jwt.sign({ id: userIdResponse.data }, jwtPassword,{expiresIn:expiryTime});
     res.locals.token = token;
     next();
 }

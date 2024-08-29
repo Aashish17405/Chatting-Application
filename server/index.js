@@ -15,7 +15,7 @@ app.use(express.json());
 const port = process.env.PORT || 3000;
 const mongoURI = process.env.MONGODB_URI;
 const jwtPassword=process.env.JWT_SECRET;
-const expiryTime = 6;
+const expiryTime = 30;
 
 if (!mongoURI) {
     console.error("MongoDB URI is not defined");
@@ -26,9 +26,6 @@ mongoose.connect(mongoURI, { useNewUrlParser: true, useUnifiedTopology: true })
     .then(() => console.log('MongoDB connected'))
     .catch(err => console.error('MongoDB connection error:', err));
 
-
-
-// JWT Signing Middleware
 function jwtSign(req, res, next) {
     const { userId, username, password } = req.body;
 
@@ -44,6 +41,18 @@ function jwtSign(req, res, next) {
     res.locals.token = token;
     next();
 }
+
+const checkToken = (req, res, next) => {
+    const header = req.headers['authorization'];
+  
+    if (header && header.startsWith('Bearer ')) {
+      const token = header.split(' ')[1];
+      req.token = token;
+      next();
+    } else {
+      res.sendStatus(403)
+    }
+  }
 
 // Routes
 app.post('/', jwtSign, (req, res) => {

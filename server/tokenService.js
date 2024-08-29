@@ -14,7 +14,7 @@ export function isTokenExpired(token) {
     const decodedToken = jwtDecode(token);
     if (!decodedToken || !decodedToken.exp) return true;
 
-    const expirationTime = decodedToken.exp * 1000; // Convert seconds to milliseconds
+    const expirationTime = decodedToken.exp * 1000;
     const currentTime = Date.now();
 
     return currentTime > expirationTime;
